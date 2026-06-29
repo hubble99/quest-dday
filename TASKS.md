@@ -925,7 +925,7 @@ TimerRepositoryTest:
 ---
 
 ### Task 3.4 — SettingsRepository & ExpRepository Implementation
-**Status:** TODO
+**Status:** DONE
 **Skill:** database-conventions, testing-standards, business-logic
 **Dependensi:** Task 2.4
 
