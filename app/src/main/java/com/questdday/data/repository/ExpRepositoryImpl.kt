@@ -6,6 +6,8 @@ import com.questdday.data.local.dao.ExpDecayLogDao
 import com.questdday.data.local.dao.UserAttributeStatDao
 import com.questdday.data.local.dao.UserDao
 import com.questdday.data.local.entity.ExpDecayLogEntity
+import com.questdday.data.local.entity.toDomainModel
+import com.questdday.domain.model.UserAttributeStat
 import com.questdday.util.ExpCalculator
 import kotlin.math.max
 
@@ -87,5 +89,9 @@ class ExpRepositoryImpl(
                 }
             }
         }
+    }
+
+    override suspend fun getStat(userId: Long, attributeId: Long): UserAttributeStat? {
+        return userAttributeStatDao.getStat(userId, attributeId)?.toDomainModel()
     }
 }

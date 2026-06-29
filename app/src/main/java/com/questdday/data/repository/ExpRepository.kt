@@ -14,4 +14,9 @@ interface ExpRepository {
         decayRateR: Double,
         now: String
     )
+
+    suspend fun getStat(
+        userId: Long,
+        attributeId: Long
+    ): com.questdday.domain.model.UserAttributeStat?
 }
