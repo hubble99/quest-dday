@@ -9,8 +9,10 @@ import com.questdday.data.repository.ExpRepository
 import com.questdday.data.repository.LazyEvaluationRepository
 import com.questdday.data.repository.SettingsRepository
 import com.questdday.data.repository.QuestLogRepository
+import com.questdday.data.repository.AttributeRepository
 import com.questdday.domain.model.Quest
 import com.questdday.domain.model.ActiveTimer
+import com.questdday.domain.model.Attribute
 import com.questdday.util.AlarmScheduler
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -23,7 +25,9 @@ sealed class TodayQuestsUiState {
     data class Success(
         val quests: List<Quest>,
         val pendingConfirmationTimers: List<ActiveTimer>,
-        val runningTimers: List<ActiveTimer>
+        val runningTimers: List<ActiveTimer>,
+        val completedQuestIds: Set<Long> = emptySet(),
+        val attributes: Map<Long, Attribute> = emptyMap()
     ) : TodayQuestsUiState()
     data class Error(val message: String) : TodayQuestsUiState()
 }
@@ -41,7 +45,8 @@ class TodayQuestsViewModel(
     private val expRepository: ExpRepository,
     private val lazyEvaluationRepository: LazyEvaluationRepository,
     private val settingsRepository: SettingsRepository,
-    private val questLogRepository: QuestLogRepository
+    private val questLogRepository: QuestLogRepository,
+    private val attributeRepository: AttributeRepository
 ) : AndroidViewModel(application) {
 
     private val _uiState = MutableStateFlow<TodayQuestsUiState>(TodayQuestsUiState.Loading)
@@ -83,9 +88,17 @@ class TodayQuestsViewModel(
                 combine(
                     questRepository.getTodayQuests(userId, todayStr),
                     timerRepository.getPendingConfirmationTimers(),
-                    timerRepository.getRunningTimers()
-                ) { quests, pending, running ->
-                    TodayQuestsUiState.Success(quests, pending, running)
+                    timerRepository.getRunningTimers(),
+                    questLogRepository.getLogsForDate(userId, todayStr),
+                    attributeRepository.getAllAttributes()
+                ) { quests, pending, running, logs, attrs ->
+                    TodayQuestsUiState.Success(
+                        quests = quests,
+                        pendingConfirmationTimers = pending,
+                        runningTimers = running,
+                        completedQuestIds = logs.map { it.questId }.toSet(),
+                        attributes = attrs.associateBy { it.id }
+                    )
                 }.catch { e ->
                     _uiState.value = TodayQuestsUiState.Error(e.message ?: "Unknown error")
                 }.collect { successState ->

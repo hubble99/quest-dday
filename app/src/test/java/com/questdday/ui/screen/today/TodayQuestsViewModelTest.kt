@@ -50,6 +50,7 @@ class TodayQuestsViewModelTest {
     private val lazyEvaluationRepository = mockk<LazyEvaluationRepository>(relaxed = true)
     private val settingsRepository = mockk<SettingsRepository>(relaxed = true)
     private val questLogRepository = mockk<QuestLogRepository>(relaxed = true)
+    private val attributeRepository = mockk<AttributeRepository>(relaxed = true)
 
     private lateinit var viewModel: TodayQuestsViewModel
 
@@ -61,6 +62,8 @@ class TodayQuestsViewModelTest {
         every { questRepository.getTodayQuests(any(), any()) } returns flowOf(emptyList())
         every { timerRepository.getPendingConfirmationTimers() } returns flowOf(emptyList())
         every { timerRepository.getRunningTimers() } returns flowOf(emptyList())
+        every { questLogRepository.getLogsForDate(any(), any()) } returns flowOf(emptyList())
+        every { attributeRepository.getAllAttributes() } returns flowOf(emptyList())
     }
 
     @After
@@ -78,7 +81,8 @@ class TodayQuestsViewModelTest {
             expRepository = expRepository,
             lazyEvaluationRepository = lazyEvaluationRepository,
             settingsRepository = settingsRepository,
-            questLogRepository = questLogRepository
+            questLogRepository = questLogRepository,
+            attributeRepository = attributeRepository
         )
         return viewModel
     }
