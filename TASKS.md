@@ -1025,7 +1025,7 @@ ExpRepositoryTest:
 ## Epic 4 — Lazy Evaluation Engine
 
 ### Task 4.1 — ScheduleCalculator & MissedSessionCalculator
-**Status:** TODO
+**Status:** DONE
 **Skill:** business-logic, testing-standards
 **Dependensi:** Task 3.2
 
