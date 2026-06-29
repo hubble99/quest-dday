@@ -1349,7 +1349,7 @@ ViewModel sudah ditest di Task 5.1.
 ## Epic 6 — Foreground Service & AlarmManager
 
 ### Task 6.1 — QuestTimerService & AlarmManager Integration
-**Status:** TODO
+**Status:** DONE
 **Skill:** android-lifecycle, testing-standards
 **Dependensi:** Task 3.3, Task 5.1
 
@@ -1393,13 +1393,13 @@ Tambahkan Service, kedua Receiver, dan permission yang dibutuhkan:
 - POST_NOTIFICATIONS (Android 13+)
 
 **Acceptance Criteria:**
-- [ ] Service return START_STICKY
-- [ ] Service baca state dari DB saat start, bukan dari parameter Intent saja
-- [ ] AlarmManager menggunakan setExactAndAllowWhileIdle()
-- [ ] PendingIntent menggunakan FLAG_IMMUTABLE
-- [ ] BootReceiver me-reschedule timer yang masih aktif setelah reboot
-- [ ] QuestAlarmReceiver tidak commit EXP — hanya markAlarmFired + notifikasi
-- [ ] Semua permission terdaftar di AndroidManifest
+- [x] Service return START_STICKY
+- [x] Service baca state dari DB saat start, bukan dari parameter Intent saja
+- [x] AlarmManager menggunakan setExactAndAllowWhileIdle()
+- [x] PendingIntent menggunakan FLAG_IMMUTABLE
+- [x] BootReceiver me-reschedule timer yang masih aktif setelah reboot
+- [x] QuestAlarmReceiver tidak commit EXP — hanya markAlarmFired + notifikasi
+- [x] Semua permission terdaftar di AndroidManifest
 
 **Unit Test:**
 ```

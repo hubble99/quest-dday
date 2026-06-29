@@ -13,6 +13,8 @@ import com.questdday.data.repository.AttributeRepository
 import com.questdday.domain.model.Quest
 import com.questdday.domain.model.ActiveTimer
 import com.questdday.domain.model.Attribute
+import android.content.Intent
+import com.questdday.service.QuestTimerService
 import com.questdday.util.AlarmScheduler
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -168,10 +170,18 @@ class TodayQuestsViewModel(
     }
 
     fun startTimer(questId: Long, targetDurationSeconds: Int) {
+        val context: Application = getApplication()
         viewModelScope.launch {
             try {
                 val success = timerRepository.startTimer(questId, targetDurationSeconds)
-                if (!success) {
+                if (success) {
+                    val triggerAtMillis = System.currentTimeMillis() + targetDurationSeconds * 1000L
+                    AlarmScheduler.scheduleQuestAlarm(context, questId, triggerAtMillis)
+                    val serviceIntent = Intent(context, QuestTimerService::class.java).apply {
+                        putExtra("quest_id", questId)
+                    }
+                    context.startForegroundService(serviceIntent)
+                } else {
                     _errorEvent.emit("Timer sudah berjalan untuk quest ini")
                 }
             } catch (e: Exception) {
@@ -181,10 +191,17 @@ class TodayQuestsViewModel(
     }
 
     fun cancelTimer(questId: Long) {
+        val context: Application = getApplication()
         viewModelScope.launch {
             try {
                 timerRepository.cancelTimer(questId)
-                AlarmScheduler.cancelQuestAlarm(getApplication(), questId)
+                AlarmScheduler.cancelQuestAlarm(context, questId)
+                
+                val running = timerRepository.getRunningTimers().first()
+                if (running.isEmpty()) {
+                    val serviceIntent = Intent(context, QuestTimerService::class.java)
+                    context.stopService(serviceIntent)
+                }
             } catch (e: Exception) {
                 _errorEvent.emit(e.message ?: "Unknown error")
             }
@@ -192,6 +209,7 @@ class TodayQuestsViewModel(
     }
 
     fun confirmTimerComplete(questId: Long, attributeId: Long, actualDurationSeconds: Int) {
+        val context: Application = getApplication()
         viewModelScope.launch {
             try {
                 // Verifikasi keberadaan active timer
@@ -245,6 +263,12 @@ class TodayQuestsViewModel(
                 val levelAfter = statAfter?.currentLevel ?: 1
                 if (levelAfter > levelBefore) {
                     _levelUpEvent.emit(LevelUpEvent(attributeId, levelBefore, levelAfter))
+                }
+
+                val running = timerRepository.getRunningTimers().first()
+                if (running.isEmpty()) {
+                    val serviceIntent = Intent(context, QuestTimerService::class.java)
+                    context.stopService(serviceIntent)
                 }
             } catch (e: Exception) {
                 _errorEvent.emit(e.message ?: "Unknown error")
