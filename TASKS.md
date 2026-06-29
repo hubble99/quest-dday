@@ -1216,7 +1216,7 @@ LazyEvaluationRepositoryTest:
 ## Epic 5 — Today's Quests Screen
 
 ### Task 5.1 — TodayQuestsViewModel
-**Status:** TODO
+**Status:** DONE
 **Skill:** testing-standards, business-logic, android-lifecycle
 **Dependensi:** Task 3.2, Task 3.3, Task 4.2
 
@@ -1266,11 +1266,11 @@ fun confirmTimerComplete(questId: Long, attributeId: Long, actualDurationSeconds
 ```
 
 **Acceptance Criteria:**
-- [ ] initialize() memanggil runLayerB sebelum runLayerA
-- [ ] completeInstantQuest menambah entry ke quest_logs
-- [ ] completeInstantQuest memberikan EXP ke atribut yang benar
-- [ ] startTimer emit error jika timer sudah ada (return false dari repository)
-- [ ] confirmTimerComplete tidak bisa dipanggil untuk quest tanpa active_timer
+- [x] initialize() memanggil runLayerB sebelum runLayerA
+- [x] completeInstantQuest menambah entry ke quest_logs
+- [x] completeInstantQuest memberikan EXP ke atribut yang benar
+- [x] startTimer emit error jika timer sudah ada (return false dari repository)
+- [x] confirmTimerComplete tidak bisa dipanggil untuk quest tanpa active_timer
 
 **Unit Test (src/test — mock semua Repository):**
 ```
