@@ -490,7 +490,7 @@ QuestHistoryDaoTest:
 ---
 
 ### Task 2.3 — Entity & DAO: active_timers, exp_decay_log, app_settings
-**Status:** TODO
+**Status:** DONE
 **Skill:** database-conventions, testing-standards
 **Dependensi:** Task 2.1
 
@@ -574,11 +574,11 @@ fun getAllSettings(): Flow<List<AppSettingEntity>>
 ```
 
 **Acceptance Criteria:**
-- [ ] ActiveTimerEntity punya UNIQUE constraint pada questId
-- [ ] Insert timer dengan questId yang sama throw exception (OnConflictStrategy.ABORT)
-- [ ] alarmFiredAt nullable dan default NULL
-- [ ] AppSettingEntity menggunakan String sebagai PK (bukan autoGenerate)
-- [ ] Semua query menggunakan raw @Query
+- [x] ActiveTimerEntity punya UNIQUE constraint pada questId
+- [x] Insert timer dengan questId yang sama throw exception (OnConflictStrategy.ABORT)
+- [x] alarmFiredAt nullable dan default NULL
+- [x] AppSettingEntity menggunakan String sebagai PK (bukan autoGenerate)
+- [x] Semua query menggunakan raw @Query
 
 **Unit Test (src/androidTest — Room in-memory DB):**
 ```
