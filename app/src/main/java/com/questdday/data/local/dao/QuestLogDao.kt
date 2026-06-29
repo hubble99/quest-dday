@@ -26,4 +26,17 @@ interface QuestLogDao {
 
     @Query("SELECT * FROM quest_logs WHERE user_id = :userId")
     fun getLogsForUser(userId: Long): Flow<List<QuestLogEntity>>
+
+    /** Distinct completed dates for a quest within a range — for missed session calculation. */
+    @Query("""
+        SELECT DISTINCT log_date FROM quest_logs 
+        WHERE quest_id = :questId 
+        AND log_date >= :fromDate 
+        AND log_date <= :toDate
+    """)
+    suspend fun getCompletedDatesForQuest(questId: Long, fromDate: String, toDate: String): List<String>
+
+    /** One-shot variant for lazy evaluation (inside @Transaction, cannot use Flow). */
+    @Query("SELECT * FROM quest_logs WHERE user_id = :userId AND log_date = :date")
+    suspend fun getLogsForUserOnDateOnce(userId: Long, date: String): List<QuestLogEntity>
 }

@@ -26,4 +26,8 @@ interface UserDao {
 
     @Query("UPDATE users SET has_seen_welcome = 1 WHERE id = :userId")
     suspend fun markWelcomeSeen(userId: Long)
+
+    /** One-shot variant for lazy evaluation (inside @Transaction, cannot use Flow). */
+    @Query("SELECT * FROM users WHERE id = :userId")
+    suspend fun getUserOnce(userId: Long): UserEntity?
 }

@@ -77,4 +77,34 @@ interface QuestDao {
 
     @Query("SELECT COUNT(*) FROM quests WHERE attribute_id = :attributeId AND status = 'active'")
     suspend fun countActiveQuestsByAttribute(attributeId: Long): Int
+
+    /** One-shot variant for lazy evaluation (inside @Transaction, cannot use Flow). */
+    @Query("SELECT * FROM quests WHERE user_id = :userId AND status = 'active' AND is_container = 0")
+    suspend fun getActiveExecutableQuestsOnce(userId: Long): List<QuestEntity>
+
+    /** Return ALL sub-quests under parent (any status) — for cascade archival. */
+    @Query("SELECT * FROM quests WHERE parent_quest_id = :parentId")
+    suspend fun getAllSubQuestsOnce(parentId: Long): List<QuestEntity>
+
+    /** Sub-quests that have breached the failure threshold. */
+    @Query("""
+        SELECT * FROM quests 
+        WHERE user_id = :userId 
+        AND status = 'active' 
+        AND is_container = 0 
+        AND parent_quest_id IS NOT NULL 
+        AND consecutive_missed_sessions >= :threshold
+    """)
+    suspend fun getFailedSubQuests(userId: Long, threshold: Int): List<QuestEntity>
+
+    /** Standalone quests that have breached the failure threshold. */
+    @Query("""
+        SELECT * FROM quests 
+        WHERE user_id = :userId 
+        AND status = 'active' 
+        AND is_container = 0 
+        AND parent_quest_id IS NULL 
+        AND consecutive_missed_sessions >= :threshold
+    """)
+    suspend fun getFailedStandaloneQuests(userId: Long, threshold: Int): List<QuestEntity>
 }

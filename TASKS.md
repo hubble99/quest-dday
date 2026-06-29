@@ -1131,7 +1131,7 @@ MissedSessionCalculatorTest:
 ---
 
 ### Task 4.2 — LazyEvaluationRepository Implementation
-**Status:** TODO
+**Status:** DONE
 **Skill:** business-logic, testing-standards, database-conventions
 **Dependensi:** Task 3.2, Task 3.3, Task 3.4, Task 4.1
 
@@ -1184,15 +1184,15 @@ sealed class LayerAResult {
 ```
 
 **Acceptance Criteria:**
-- [ ] runLayerA return AlreadyEvaluated jika last_evaluated_date == today
-- [ ] runLayerA return FirstTime jika last_evaluated_date IS NULL (tidak proses apapun)
-- [ ] Urutan Step 1-6 diikuti tepat sesuai SKILL business-logic section 6
-- [ ] Step 3 cascade: sub-quest gagal memicu kegagalan Epic induk
-- [ ] Step 3 cascade: saudara sub-quest yang 'completed' diarsipkan sebagai 'completed'
-- [ ] Step 3 cascade: saudara sub-quest yang 'active' diarsipkan sebagai 'failed_via_parent'
-- [ ] Step 4 Shift: end_date digeser via findNextScheduledDay(), bukan hari kalender
-- [ ] Step 5 decay: di-skip jika decay_rate_R atau grace_period kosong
-- [ ] Seluruh Lapis A dalam satu transaksi DB
+- [x] runLayerA return AlreadyEvaluated jika last_evaluated_date == today
+- [x] runLayerA return FirstTime jika last_evaluated_date IS NULL (tidak proses apapun)
+- [x] Urutan Step 1-6 diikuti tepat sesuai SKILL business-logic section 6
+- [x] Step 3 cascade: sub-quest gagal memicu kegagalan Epic induk
+- [x] Step 3 cascade: saudara sub-quest yang 'completed' diarsipkan sebagai 'completed'
+- [x] Step 3 cascade: saudara sub-quest yang 'active' diarsipkan sebagai 'failed_via_parent'
+- [x] Step 4 Shift: end_date digeser via findNextScheduledDay(), bukan hari kalender
+- [x] Step 5 decay: di-skip jika decay_rate_R atau grace_period kosong
+- [x] Seluruh Lapis A dalam satu transaksi DB
 
 **Unit Test (src/test — mock semua Repository dependencies dengan MockK):**
 ```

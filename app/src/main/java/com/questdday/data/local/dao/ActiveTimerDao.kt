@@ -29,4 +29,12 @@ interface ActiveTimerDao {
 
     @Query("SELECT COUNT(*) FROM active_timers WHERE quest_id = :questId")
     suspend fun timerExistsForQuest(questId: Long): Int
+
+    /** One-shot variant for lazy evaluation Layer B. */
+    @Query("SELECT * FROM active_timers WHERE alarm_fired_at IS NOT NULL")
+    suspend fun getPendingConfirmationTimersOnce(): List<ActiveTimerEntity>
+
+    /** One-shot variant for lazy evaluation Layer B. */
+    @Query("SELECT * FROM active_timers WHERE alarm_fired_at IS NULL")
+    suspend fun getRunningTimersOnce(): List<ActiveTimerEntity>
 }
