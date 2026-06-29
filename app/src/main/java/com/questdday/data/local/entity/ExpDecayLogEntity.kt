@@ -14,7 +14,8 @@ import androidx.room.PrimaryKey
             childColumns = ["user_attribute_stat_id"],
             onDelete = ForeignKey.CASCADE
         )
-    ]
+    ],
+    indices = [androidx.room.Index(value = ["user_attribute_stat_id"])]
 )
 data class ExpDecayLogEntity(
     @PrimaryKey(autoGenerate = true)
