@@ -709,7 +709,7 @@ AppDatabaseSeedTest:
 ## Epic 3 — Repository Implementation
 
 ### Task 3.1 — UserRepository & AttributeRepository Implementation
-**Status:** TODO
+**Status:** DONE
 **Skill:** database-conventions, testing-standards, validation-rules
 **Dependensi:** Task 2.4
 

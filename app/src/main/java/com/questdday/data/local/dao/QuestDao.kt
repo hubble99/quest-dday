@@ -74,4 +74,7 @@ interface QuestDao {
 
     @Query("DELETE FROM quests WHERE id = :id")
     suspend fun deleteQuest(id: Long)
+
+    @Query("SELECT COUNT(*) FROM quests WHERE attribute_id = :attributeId AND status = 'active'")
+    suspend fun countActiveQuestsByAttribute(attributeId: Long): Int
 }

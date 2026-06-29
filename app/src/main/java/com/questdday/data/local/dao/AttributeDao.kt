@@ -23,4 +23,7 @@ interface AttributeDao {
 
     @Query("DELETE FROM attributes WHERE id = :id AND is_default = 0")
     suspend fun deleteCustomAttribute(id: Long)
+
+    @Query("SELECT COUNT(*) FROM attributes WHERE code = :code")
+    suspend fun countAttributeByCode(code: String): Int
 }
