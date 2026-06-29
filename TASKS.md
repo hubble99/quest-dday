@@ -1288,7 +1288,7 @@ TodayQuestsViewModelTest:
 ---
 
 ### Task 5.2 — Today's Quests UI
-**Status:** TODO
+**Status:** DONE
 **Skill:** ui-design-qa, android-lifecycle
 **Dependensi:** Task 5.1
 
@@ -1331,14 +1331,14 @@ selama initialize() belum selesai.
 Tampilkan pesan error + tombol "Coba Lagi" yang memanggil initialize() ulang.
 
 **Acceptance Criteria sesuai SKILL ui-design-qa:**
-- [ ] Semua Text punya maxLines + overflow
-- [ ] Semua padding menggunakan Spacing token
-- [ ] LazyColumn dengan key = { it.id }
-- [ ] Empty state informatif dengan CTA
-- [ ] Loading dan Error state tersedia
-- [ ] Quest selesai tetap tampil (tidak hilang dari list)
-- [ ] Timer pending confirmation tidak membunyikan alarm baru
-- [ ] Behavioral checklist PRD dilampirkan di artifact hasil
+- [x] Semua Text punya maxLines + overflow
+- [x] Semua padding menggunakan Spacing token
+- [x] LazyColumn dengan key = { it.id }
+- [x] Empty state informatif dengan CTA
+- [x] Loading dan Error state tersedia
+- [x] Quest selesai tetap tampil (tidak hilang dari list)
+- [x] Timer pending confirmation tidak membunyikan alarm baru
+- [x] Behavioral checklist PRD dilampirkan di artifact hasil
 
 **Unit Test:**
 Tidak ada unit test untuk Composable — verifikasi manual di emulator.
