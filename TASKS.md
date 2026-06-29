@@ -147,7 +147,7 @@ Tidak ada unit test untuk task ini — navigasi diverifikasi manual di emulator.
 ## Epic 2 — Database Layer
 
 ### Task 2.1 — Entity & DAO: users, attributes, user_attribute_stats
-**Status:** TODO
+**Status:** DONE
 **Skill:** database-conventions, testing-standards
 **Dependensi:** Task 1.1
 
@@ -259,11 +259,11 @@ User.kt, Attribute.kt, UserAttributeStat.kt di domain/model/
 Mapper extension function di data/local/entity/ untuk setiap entity.
 
 **Acceptance Criteria:**
-- [ ] Semua Entity sesuai schema PRD.md (nama kolom, tipe, nullable, constraint)
-- [ ] Semua FK dan index terdefinisi di Entity annotation
-- [ ] Semua DAO menggunakan raw @Query dengan named parameter
-- [ ] Domain model dan mapper tersedia untuk ketiga entity
-- [ ] Tidak ada auto-generated method selain @Insert yang diizinkan
+- [x] Semua Entity sesuai schema PRD.md (nama kolom, tipe, nullable, constraint)
+- [x] Semua FK dan index terdefinisi di Entity annotation
+- [x] Semua DAO menggunakan raw @Query dengan named parameter
+- [x] Domain model dan mapper tersedia untuk ketiga entity
+- [x] Tidak ada auto-generated method selain @Insert yang diizinkan
 
 **Unit Test (src/androidTest — pakai Room in-memory DB):**
 ```
