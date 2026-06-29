@@ -286,7 +286,7 @@ UserAttributeStatDaoTest:
 ---
 
 ### Task 2.2 — Entity & DAO: quests, quest_logs, quest_history
-**Status:** TODO
+**Status:** DONE
 **Skill:** database-conventions, testing-standards
 **Dependensi:** Task 2.1
 
@@ -457,11 +457,11 @@ Quest.kt, QuestLog.kt, QuestHistory.kt di domain/model/
 Mapper untuk ketiga entity.
 
 **Acceptance Criteria:**
-- [ ] Semua kolom QuestEntity sesuai PRD.md (termasuk semua yang nullable)
-- [ ] Semua index terdefinisi
-- [ ] FK dengan ON DELETE behavior yang benar (CASCADE, SET NULL)
-- [ ] Semua query menggunakan raw @Query dengan named parameter
-- [ ] originalQuestId di QuestHistoryEntity bukan FK aktif (hanya Long biasa)
+- [x] Semua kolom QuestEntity sesuai PRD.md (termasuk semua yang nullable)
+- [x] Semua index terdefinisi
+- [x] FK dengan ON DELETE behavior yang benar (CASCADE, SET NULL)
+- [x] Semua query menggunakan raw @Query dengan named parameter
+- [x] originalQuestId di QuestHistoryEntity bukan FK aktif (hanya Long biasa)
 
 **Unit Test (src/androidTest — Room in-memory DB):**
 ```
