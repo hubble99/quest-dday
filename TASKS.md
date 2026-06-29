@@ -19,7 +19,7 @@ Format commit: feat/fix/chore: [Epic X][Task X.Y] judul task
 ## Epic 1 — Project Setup & Fondasi
 
 ### Task 1.1 — Inisialisasi Project Android
-**Status:** TODO
+**Status:** DONE
 **Skill:** android-lifecycle
 **Dependensi:** -
 
@@ -106,7 +106,7 @@ Tidak ada unit test untuk task ini — task ini murni setup infrastruktur.
 ---
 
 ### Task 1.2 — Setup Navigation & Screen Placeholder
-**Status:** TODO
+**Status:** DONE
 **Skill:** android-lifecycle, ui-design-qa
 **Dependensi:** Task 1.1
 
@@ -601,7 +601,7 @@ AppSettingDaoTest:
 ---
 
 ### Task 2.4 — AppDatabase, Seed Data & Repository Interface
-**Status:** TODO
+**Status:** DONE
 **Skill:** database-conventions, testing-standards
 **Dependensi:** Task 2.1, Task 2.2, Task 2.3
 
@@ -760,7 +760,7 @@ AttributeRepositoryTest:
 ---
 
 ### Task 3.2 — QuestRepository Implementation
-**Status:** TODO
+**Status:** DONE
 **Skill:** database-conventions, testing-standards, validation-rules
 **Dependensi:** Task 2.4
 
@@ -841,7 +841,7 @@ QuestRepositoryTest:
 ---
 
 ### Task 3.3 — QuestLogRepository & TimerRepository Implementation
-**Status:** TODO
+**Status:** DONE
 **Skill:** database-conventions, testing-standards, validation-rules
 **Dependensi:** Task 2.4
 
