@@ -23,4 +23,7 @@ interface QuestLogDao {
 
     @Query("SELECT COALESCE(SUM(exp_awarded), 0) FROM quest_logs WHERE quest_id = :questId")
     suspend fun getTotalExpForQuest(questId: Long): Double
+
+    @Query("SELECT * FROM quest_logs WHERE user_id = :userId")
+    fun getLogsForUser(userId: Long): Flow<List<QuestLogEntity>>
 }
