@@ -153,9 +153,8 @@ class CreateQuestViewModel(
                 if (state.endDate == null && state.targetDays == null) {
                     newErrors["endDate"] = "End date or target days is required"
                 }
-                if (state.absenceMode == null) {
-                    newErrors["absenceMode"] = "Absence mode is required"
-                }
+                // NOTE: absenceMode is NOT validated for Epic containers.
+                // Epics don't use absence mode per PRD — it's only for leaf quests.
             }
         } else {
             // Standalone or sub-quest

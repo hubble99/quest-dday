@@ -10,6 +10,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -34,15 +35,67 @@ fun CreateQuestScreen(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
+    var showExitConfirmDialog by remember { mutableStateOf(false) }
+
+    // BUG 2: Exit confirmation dialog for Epic container in awaiting sub-quest state
+    if (showExitConfirmDialog) {
+        AlertDialog(
+            onDismissRequest = { showExitConfirmDialog = false },
+            title = {
+                Text(
+                    text = "Keluar tanpa sub-quest?",
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+            },
+            text = {
+                Text(
+                    text = "Epic sudah tersimpan tapi belum punya sub-quest, yakin keluar?",
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    showExitConfirmDialog = false
+                    onNavigateBack()
+                }) {
+                    Text("Ya, Keluar")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showExitConfirmDialog = false }) {
+                    Text("Batal")
+                }
+            }
+        )
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = if (state.isContainer) "Buat Epic Quest" else "Buat Quest Baru",
+                        text = if (state.isAwaitingFirstSubQuest) "Tambah Sub-Quest"
+                               else if (state.isContainer) "Buat Epic Quest"
+                               else "Buat Quest Baru",
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
+                },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        if (state.isAwaitingFirstSubQuest) {
+                            showExitConfirmDialog = true
+                        } else {
+                            onNavigateBack()
+                        }
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = "Tutup"
+                        )
+                    }
                 }
             )
         }
@@ -112,34 +165,33 @@ fun CreateQuestScreen(
             )
             Spacer(modifier = Modifier.height(Spacing.sm))
 
-            // Attribute Selection
+            // Attribute Selection — BUG 3: Use ExposedDropdownMenuBox for full-area click
             var dropdownExpanded by remember { mutableStateOf(false) }
             val selectedAttribute = attributesList.find { it.id == state.selectedAttributeId }
 
-            Box(modifier = Modifier.fillMaxWidth()) {
+            ExposedDropdownMenuBox(
+                expanded = dropdownExpanded,
+                onExpandedChange = { dropdownExpanded = it },
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 OutlinedTextField(
                     value = selectedAttribute?.let { "${it.icon ?: ""} ${it.displayName}" } ?: "Pilih Atribut",
                     onValueChange = {},
                     readOnly = true,
                     label = { Text("Atribut") },
                     isError = state.errors.containsKey("selectedAttributeId"),
-                    trailingIcon = {
-                        IconButton(onClick = { dropdownExpanded = true }) {
-                            Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "Pilih Atribut")
-                        }
-                    },
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = dropdownExpanded) },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { dropdownExpanded = true }
+                        .menuAnchor()
                 )
-                DropdownMenu(
+                ExposedDropdownMenu(
                     expanded = dropdownExpanded,
-                    onDismissRequest = { dropdownExpanded = false },
-                    modifier = Modifier.fillMaxWidth(0.9f)
+                    onDismissRequest = { dropdownExpanded = false }
                 ) {
                     attributesList.forEach { attr ->
                         DropdownMenuItem(
-                            text = { 
+                            text = {
                                 Text(
                                     text = "${attr.icon ?: ""} ${attr.displayName}",
                                     maxLines = 1,
@@ -545,33 +597,46 @@ fun CreateQuestScreen(
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.padding(bottom = Spacing.sm)
                     )
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Start,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        RadioButton(
-                            selected = state.absenceMode == "shift",
-                            onClick = { viewModel.setAbsenceMode("shift") }
-                        )
-                        Text(
-                            text = "Geser Jadwal (Shift)",
-                            style = MaterialTheme.typography.bodyLarge,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier.padding(end = Spacing.md)
-                        )
-                        
-                        RadioButton(
-                            selected = state.absenceMode == "stack",
-                            onClick = { viewModel.setAbsenceMode("stack") }
-                        )
-                        Text(
-                            text = "Tumpuk Tugas (Stack)",
-                            style = MaterialTheme.typography.bodyLarge,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
+                    // BUG 4: Column layout for absence mode radio buttons to prevent text overflow
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { viewModel.setAbsenceMode("shift") }
+                                .padding(vertical = Spacing.xs)
+                        ) {
+                            RadioButton(
+                                selected = state.absenceMode == "shift",
+                                onClick = { viewModel.setAbsenceMode("shift") }
+                            )
+                            Text(
+                                text = "Geser Jadwal (Shift)",
+                                style = MaterialTheme.typography.bodyLarge,
+                                maxLines = 2,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier.weight(1f)
+                            )
+                        }
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { viewModel.setAbsenceMode("stack") }
+                                .padding(vertical = Spacing.xs)
+                        ) {
+                            RadioButton(
+                                selected = state.absenceMode == "stack",
+                                onClick = { viewModel.setAbsenceMode("stack") }
+                            )
+                            Text(
+                                text = "Tumpuk Tugas (Stack)",
+                                style = MaterialTheme.typography.bodyLarge,
+                                maxLines = 2,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier.weight(1f)
+                            )
+                        }
                     }
                     if (state.errors.containsKey("absenceMode")) {
                         Text(

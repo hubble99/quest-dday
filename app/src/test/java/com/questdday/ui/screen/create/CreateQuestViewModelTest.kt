@@ -271,4 +271,28 @@ class CreateQuestViewModelTest {
         // Assert
         assertEquals(null, viewModel.formState.value.absenceMode)
     }
+
+    @Test
+    fun `validateAndSave transitions to awaiting sub-quest state when epic is time_bound with target_days`() = runTest {
+        // Arrange
+        val viewModel = createViewModel()
+        viewModel.setIsContainer(true)
+        viewModel.updateTitle("Epic Time-Bound")
+        viewModel.selectAttribute(1L)
+        viewModel.setDurationType("time_bound")
+        viewModel.setDurationInputType("days")
+        viewModel.setTargetDays(100)
+        // NOTE: absenceMode is NOT set — Epics don't use absence mode per PRD
+
+        // Act
+        val result = viewModel.validateAndSave()
+
+        // Assert: should transition to awaiting first sub-quest (return false), NOT get stuck with errors
+        assertFalse(result)
+        assertTrue(viewModel.formState.value.errors.isEmpty())
+        assertTrue(viewModel.formState.value.isAwaitingFirstSubQuest)
+        assertFalse(viewModel.formState.value.isContainer)
+        assertNotNull(viewModel.formState.value.parentEndDate)
+        assertEquals("Epic Time-Bound", viewModel.formState.value.parentQuestTitle)
+    }
 }
