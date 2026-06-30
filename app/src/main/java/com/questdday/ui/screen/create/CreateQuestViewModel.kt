@@ -26,6 +26,7 @@ data class CreateQuestFormState(
     val scheduleDays: List<Int> = emptyList(),
     val parentQuestId: Long? = null,
     val parentEndDate: String? = null,         // untuk validasi sub-quest
+    val parentQuestTitle: String? = null,      // judul Epic parent untuk banner UI
     val isAwaitingFirstSubQuest: Boolean = false,
     val errors: Map<String, String> = emptyMap()
 )
@@ -119,11 +120,12 @@ class CreateQuestViewModel(
         }
     }
 
-    fun setParentQuestId(parentId: Long, parentEndDate: String?) {
+    fun setParentQuestId(parentId: Long, parentEndDate: String?, parentTitle: String? = null) {
         _formState.update { state ->
             state.copy(
                 parentQuestId = parentId,
                 parentEndDate = parentEndDate,
+                parentQuestTitle = parentTitle,
                 isContainer = false
             )
         }
@@ -272,6 +274,7 @@ class CreateQuestViewModel(
                     CreateQuestFormState(
                         parentQuestId = null,
                         parentEndDate = epic.endDate,
+                        parentQuestTitle = epic.title,
                         isContainer = false,
                         isAwaitingFirstSubQuest = true,
                         selectedAttributeId = currentState.selectedAttributeId // keep attribute selected for ease of use

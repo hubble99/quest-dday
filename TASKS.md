@@ -1502,7 +1502,7 @@ CreateQuestViewModelTest:
 ---
 
 ### Task 7.2 — Create Quest UI
-**Status:** TODO
+**Status:** DONE
 **Skill:** ui-design-qa, validation-rules
 **Dependensi:** Task 7.1, Task 3.1
 
@@ -1547,13 +1547,13 @@ Tampilkan banner "Menambah sub-quest untuk: [judul Epic]".
 Setelah sub-quest pertama disimpan (via insertEpicWithFirstSubQuest), navigasi kembali.
 
 **Acceptance Criteria sesuai SKILL ui-design-qa:**
-- [ ] Field kondisional muncul/hilang dengan animasi
-- [ ] Error per-field tampil di bawah field yang bersangkutan (bukan toast)
-- [ ] Tombol Simpan disabled selama ada error yang belum diperbaiki
-- [ ] Sub-quest DatePicker tidak bisa pilih tanggal setelah parentEndDate
-- [ ] Semua Text punya maxLines + overflow
-- [ ] Semua padding menggunakan Spacing token
-- [ ] Behavioral checklist PRD dilampirkan di artifact hasil
+- [x] Field kondisional muncul/hilang dengan animasi
+- [x] Error per-field tampil di bawah field yang bersangkutan (bukan toast)
+- [x] Tombol Simpan disabled selama ada error yang belum diperbaiki
+- [x] Sub-quest DatePicker tidak bisa pilih tanggal setelah parentEndDate
+- [x] Semua Text punya maxLines + overflow
+- [x] Semua padding menggunakan Spacing token
+- [x] Behavioral checklist PRD dilampirkan di artifact hasil
 
 ---
 
