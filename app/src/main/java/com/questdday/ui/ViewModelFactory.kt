@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.questdday.data.local.AppDatabase
 import com.questdday.data.repository.*
+import com.questdday.ui.screen.create.CreateQuestViewModel
 import com.questdday.ui.screen.today.TodayQuestsViewModel
 
 class ViewModelFactory(
@@ -36,6 +37,13 @@ class ViewModelFactory(
                     lazyEvaluationRepository = lazyEvaluationRepository,
                     settingsRepository = settingsRepository,
                     questLogRepository = questLogRepository,
+                    attributeRepository = attributeRepository
+                ) as T
+            }
+            modelClass.isAssignableFrom(CreateQuestViewModel::class.java) -> {
+                CreateQuestViewModel(
+                    application = application,
+                    questRepository = questRepository,
                     attributeRepository = attributeRepository
                 ) as T
             }

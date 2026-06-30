@@ -1418,7 +1418,7 @@ BootReceiverTest (src/test):
 ## Epic 7 — Quest Creation Flow
 
 ### Task 7.1 — CreateQuestViewModel
-**Status:** TODO
+**Status:** DONE
 **Skill:** validation-rules, testing-standards, business-logic
 **Dependensi:** Task 3.1, Task 3.2
 
@@ -1476,12 +1476,12 @@ fun validateAndSave(): Boolean
 ```
 
 **Acceptance Criteria:**
-- [ ] formState.errors di-update per-field saat validasi gagal
-- [ ] absence_mode field hanya relevan (dan visible di UI) jika duration_type = time_bound
-- [ ] completion_mode field tidak ada di formState jika isContainer = true
-- [ ] schedule_days hanya relevan jika schedule_type = custom_days
-- [ ] validateAndSave memanggil method Repository yang tepat sesuai jenis quest
-- [ ] parentEndDate dipakai untuk validasi sub-quest end_date
+- [x] formState.errors di-update per-field saat validasi gagal
+- [x] absence_mode field hanya relevan (dan visible di UI) jika duration_type = time_bound
+- [x] completion_mode field tidak ada di formState jika isContainer = true
+- [x] schedule_days hanya relevan jika schedule_type = custom_days
+- [x] validateAndSave memanggil method Repository yang tepat sesuai jenis quest
+- [x] parentEndDate dipakai untuk validasi sub-quest end_date
 
 **Unit Test (src/test):**
 ```
